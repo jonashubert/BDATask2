@@ -23,11 +23,13 @@ participant SampleParticipant identified by participantId {
   o String firstName
   o String lastName
 }
-
-asset SampleAsset identified by assetId {
-  o String assetId
+//todo: rename to Drug
+asset SampleAsset identified by serialNumber {
+  o String serialNumber
   --> SampleParticipant owner
-  o String value
+  --> SampleParticipant manufacturer
+  o String productCode
+  o String batchNumber
 }
 
 transaction SampleTransaction {
