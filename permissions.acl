@@ -12,9 +12,22 @@
  * limitations under the License.
  */
 
-/**
- * Sample access control list.
- */
+rule Default {
+  description: "Allow all participants access to all resources"
+  participant: "ANY"
+  operation: ALL
+  resource:"be.howest.bda.task2.*"
+  action: ALLOW
+}
+
+rule SystemACL {
+  description: "System ACL to permit all access"
+  participant: "ANY"
+  operation: ALL
+  resource: "org.hyperledger.composer.system.*"
+  action: ALLOW
+}
+/*
 rule EverybodyCanReadEverything {
     description: "Allow all participants read access to all resources"
     participant: "be.howest.bda.task2.SampleParticipant"
@@ -22,7 +35,6 @@ rule EverybodyCanReadEverything {
     resource: "be.howest.bda.task2.*"
     action: ALLOW
 }
-
 rule EverybodyCanSubmitTransactions {
     description: "Allow all participants to submit transactions"
     participant: "be.howest.bda.task2.SampleParticipant"
@@ -63,3 +75,4 @@ rule NetworkAdminSystem {
     resource: "org.hyperledger.composer.system.**"
     action: ALLOW
 }
+*/

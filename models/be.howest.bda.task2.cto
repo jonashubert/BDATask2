@@ -18,27 +18,42 @@
 
 namespace be.howest.bda.task2
 
-participant SampleParticipant identified by participantId {
-  o String participantId
+participant Actor identified by actorId {
+  o String actorId
   o String firstName
   o String lastName
+  o Addres address
 }
-//todo: rename to Drug
-asset SampleAsset identified by serialNumber {
+
+concept Addres {
+  o String street
+  o String city
+  o String country
+}
+
+enum DrugStatus {
+  o MANUFACTURED //at manufacturer, ready to be hand over to distributer
+  o DISTRIBUTING  //at distributer, ready to be handed over to the pharmacist
+  o LOCAL_STOCK //at pharmacist, ready to be sold
+  o SOLD
+  o QUARANTINE
+}
+
+asset Drug identified by serialNumber {
   o String serialNumber
-  --> SampleParticipant owner
-  --> SampleParticipant manufacturer
+  --> Actor owner
+  --> Actor manufacturer
   o String productCode
   o String batchNumber
+  o DrugStatus status
 }
 
-transaction SampleTransaction {
-  --> SampleAsset asset
-  o String newValue
+transaction Trade {
+  --> Drug asset
+  o Actor newOwner
 }
 
-event SampleEvent {
-  --> SampleAsset asset
-  o String oldValue
-  o String newValue
+event TradeEvent {
+  o String drugSerialNumber
+  o Actor newOwner
 }
