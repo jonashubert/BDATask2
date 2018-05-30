@@ -22,7 +22,15 @@ participant Actor identified by actorId {
   o String actorId
   o String firstName
   o String lastName
+  o Role role
   o Addres address
+}
+enum Role
+{
+  o MANUFACTURER
+  o DISTRIBUTER
+  o PHARMACIST
+  o PATIENT
 }
 
 concept Addres {
@@ -45,6 +53,7 @@ asset Drug identified by serialNumber {
   --> Actor manufacturer
   o String productCode
   o String batchNumber
+  o String hash
   o DrugStatus status
 }
 
