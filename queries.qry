@@ -1,0 +1,6 @@
+query selectAllDrugsBySerial {
+  description: "Select all drugs based on their serial"
+  statement:
+    SELECT be.howest.bda.task2.Drug
+      WHERE (serialNumber==_$serial)
+}

@@ -59,10 +59,19 @@ asset Drug identified by serialNumber {
 
 transaction Trade {
   --> Drug asset
-  o Actor newOwner
+  --> Actor newOwner
+}
+
+transaction VerifyOrigin {
+   --> Drug drug
+   --> Actor newOwner
 }
 
 event TradeEvent {
   o String drugSerialNumber
   o Actor newOwner
+}
+
+event QuarantineDrug {
+  o String drug
 }
