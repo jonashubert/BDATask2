@@ -3,7 +3,7 @@
     "composer": "^0.19.5"
   },
   "name": "task2",
-  "version": "0.0.2",
+  "version": "0.0.5",
   "description": "assignment for bda-dev2, task 2, by group 1.",
   "scripts": {
     "prepublish": "mkdirp ./dist && composer archive create --sourceType dir --sourceName . -a ./dist/task2.bna",
