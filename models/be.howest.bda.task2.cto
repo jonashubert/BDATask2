@@ -28,7 +28,7 @@ participant Actor identified by actorId {
 enum Role
 {
   o MANUFACTURER
-  o DISTRIBUTER
+  o DISTRIBUTOR
   o PHARMACIST
   o PATIENT
 }
