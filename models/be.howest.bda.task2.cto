@@ -69,7 +69,7 @@ transaction VerifyOrigin {
 
 event TradeEvent {
   o String drugSerialNumber
-  o Actor newOwner
+  --> Actor newOwner
 }
 
 event QuarantineDrug {
