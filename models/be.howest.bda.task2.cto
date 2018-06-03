@@ -72,6 +72,6 @@ event TradeEvent {
   --> Actor newOwner
 }
 
-event QuarantineDrug {
-  o String drug
+event QuarantineDrugEvent {
+  o Drug drug
 }
