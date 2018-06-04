@@ -18,12 +18,25 @@
 
 namespace be.howest.bda.task2
 
-participant Actor identified by actorId {
+abstract participant Actor identified by actorId {
   o String actorId
   o String firstName
   o String lastName
   o Role role
   o Addres address
+}
+
+participant Manufacturer extends Actor
+{
+}
+participant Distributor extends Actor
+{
+}
+participant Pharmacist extends Actor
+{
+}
+participant Patient extends Actor
+{
 }
 enum Role
 {
