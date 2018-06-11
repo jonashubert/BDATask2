@@ -70,6 +70,16 @@ asset Drug identified by serialNumber {
   o DrugStatus status
 }
 
+transaction createDrug {
+   o String serialNumber
+ --> Actor owner
+ --> Actor manufacturer
+ o String productCode
+ o String batchNumber
+ o String hash
+ o DrugStatus status
+}
+
 transaction Trade {
   --> Drug asset
   --> Actor newOwner
@@ -78,6 +88,10 @@ transaction Trade {
 transaction VerifyOrigin {
    --> Drug drug
    --> Actor newOwner
+}
+
+event createDrugEvent {
+ o String serialhash
 }
 
 event TradeEvent {

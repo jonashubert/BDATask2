@@ -19,7 +19,7 @@
 # netstat -tulpn will list the ports in used and their processed. kill <pid> for all processes using port 3001, 3003, 3004
 #
 SERIAL="123456789562"
-CREATEACTORS="NO" # Change to YES to create actors - on first launch of curl
+CREATEACTORS="YES" # Change to YES to create actors - on first launch of curl
 ID_SUFFIX_PREV="Q"
 ID_SUFFIX="R"
 ADMIN_CARD="admin@task2"
