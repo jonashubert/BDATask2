@@ -20,8 +20,8 @@
 #
 SERIAL="223456789566"
 CREATEACTORS="YES" # Change to YES to create actors - on first launch of curl
-ID_SUFFIX_PREV="Q"
-ID_SUFFIX="S"
+ID_SUFFIX_PREV="S"
+ID_SUFFIX="A"
 ADMIN_CARD="admin@task2"
 ##assumes composer-rest-server running as admin on port 3000
 
@@ -44,19 +44,19 @@ then
 
     echo "#### CREATING ACTORS ####"
     echo "#### CREATING MANUFACTURER ####"
-    curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{ "$class": "be.howest.bda.task2.Manufacturer",   "actorId": "1'${ID_SUFFIX}'",    "firstName": " ", "lastName": "Pfizer", "role": "MANUFACTURER",   "address": {  "$class": "be.howest.bda.task2.Addres",  "street": "Pleinlaan 17","city": "Brussel",  "country": "Belgium",   "id": "qsdfezra"  } }' 'http://localhost:3000/api/Manufacturer'
+    curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{ "$class": "be.howest.bda.task2.Manufacturer",   "actorId": "1'${ID_SUFFIX}'",    "firstName": " ", "lastName": "Pfizer", "role": "MANUFACTURER",   "address": {  "$class": "be.howest.bda.task2.Addres",  "street": "Pleinlaan 17","city": "Brussel",  "country": "Belgium" } }' 'http://localhost:3000/api/Manufacturer'
     composer identity issue -c ${ADMIN_CARD} -f manufacturer.card -u manufacturer-${ID_SUFFIX} -a "resource:be.howest.bda.task2.Manufacturer#1${ID_SUFFIX}"
     composer card import --file manufacturer.card
         
     sleep 12
 
     ##not really needed...
-    #curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{ "$class": "be.howest.bda.task2.Manufacturer",   "actorId": "2'${ID_SUFFIX}'",    "firstName": " ", "lastName": "Janssens Pharmaceutica", "role": "MANUFACTURER",   "address": {  "$class": "be.howest.bda.task2.Addres",  "street": "Leonardo da Vincilaan 15",  "city": "Machelen",  "country": "Belgium",   "id": "faezrarez"  } }' 'http://localhost:3000/api/Manufacturer'
+    #curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{ "$class": "be.howest.bda.task2.Manufacturer",   "actorId": "2'${ID_SUFFIX}'",    "firstName": " ", "lastName": "Janssens Pharmaceutica", "role": "MANUFACTURER",   "address": {  "$class": "be.howest.bda.task2.Addres",  "street": "Leonardo da Vincilaan 15",  "city": "Machelen",  "country": "Belgium"  } }' 'http://localhost:3000/api/Manufacturer'
     
     read -n1 -r -p "Press space to continue..." key
 
     echo "#### CREATING DISTRIBUTOR ####"
-    curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{ "$class": "be.howest.bda.task2.Distributor",   "actorId": "3'${ID_SUFFIX}'",    "firstName": " ", "lastName": "Febelco", "role": "DISTRIBUTOR",   "address": {  "$class": "be.howest.bda.task2.Addres",  "street": "Eigenlostraat 1",  "city": "Sint-Niklaas",  "country": "Belgium",   "id": "sdqsfqdsfs"  } }' 'http://localhost:3000/api/Distributor'
+    curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{ "$class": "be.howest.bda.task2.Distributor",   "actorId": "3'${ID_SUFFIX}'",    "firstName": " ", "lastName": "Febelco", "role": "DISTRIBUTOR",   "address": {  "$class": "be.howest.bda.task2.Addres",  "street": "Eigenlostraat 1",  "city": "Sint-Niklaas",  "country": "Belgium" } }' 'http://localhost:3000/api/Distributor'
     composer identity issue -c ${ADMIN_CARD} -f distributor.card -u distributor-${ID_SUFFIX} -a "resource:be.howest.bda.task2.Distributor#3${ID_SUFFIX}"
     composer card import --file distributor.card
     
@@ -65,7 +65,7 @@ then
     read -n1 -r -p "Press space to continue..." key
 
     echo "#### CREATING PHARMACIST ####"
-    curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{ "$class": "be.howest.bda.task2.Pharmacist",   "actorId": "4'${ID_SUFFIX}'",    "firstName": " ", "lastName": "Apotheek De Lindeboom", "role": "PHARMACIST",   "address": {  "$class": "be.howest.bda.task2.Addres",  "street": "Antwerpsesteenweg 1",  "city": "Mechelen",  "country": "Belgium",   "id": "aazerza"  } }' 'http://localhost:3000/api/Pharmacist'
+    curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{ "$class": "be.howest.bda.task2.Pharmacist",   "actorId": "4'${ID_SUFFIX}'",    "firstName": " ", "lastName": "Apotheek De Lindeboom", "role": "PHARMACIST",   "address": {  "$class": "be.howest.bda.task2.Addres",  "street": "Antwerpsesteenweg 1",  "city": "Mechelen",  "country": "Belgium"  } }' 'http://localhost:3000/api/Pharmacist'
     composer identity issue -c ${ADMIN_CARD} -f pharmacist.card -u pharmacist-${ID_SUFFIX} -a "resource:be.howest.bda.task2.Pharmacist#4${ID_SUFFIX}"
     composer card import --file pharmacist.card
    
@@ -74,7 +74,7 @@ then
     read -n1 -r -p "Press space to continue..." key
     
     echo "#### CREATING PATIENT ####"
-    curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{ "$class": "be.howest.bda.task2.Patient",   "actorId": "5'${ID_SUFFIX}'",    "firstName": "Jonas", "lastName": "Hubert", "role": "PATIENT",   "address": {  "$class": "be.howest.bda.task2.Addres",  "street": "Jan Frans Boeckstuynsstraat 5",  "city": "Mechelen",  "country": "Belgium",   "id": "dfsgdfsghgh"  } }' 'http://localhost:3000/api/Patient'
+    curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{ "$class": "be.howest.bda.task2.Patient",   "actorId": "5'${ID_SUFFIX}'",    "firstName": "Jonas", "lastName": "Hubert", "role": "PATIENT",   "address": {  "$class": "be.howest.bda.task2.Addres",  "street": "Jan Frans Boeckstuynsstraat 5",  "city": "Mechelen",  "country": "Belgium"  } }' 'http://localhost:3000/api/Patient'
     composer identity issue -c ${ADMIN_CARD} -f patient.card -u patient-${ID_SUFFIX} -a "resource:be.howest.bda.task2.Patient#5${ID_SUFFIX}"
     composer card import --file patient.card
 
