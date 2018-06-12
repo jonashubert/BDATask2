@@ -18,10 +18,10 @@
 # NOTE: error "EADDRINUSE" means the cleanup did not go ok. The rest-composer-server is still running from a previous run
 # netstat -tulpn will list the ports in used and their processed. kill <pid> for all processes using port 3001, 3003, 3004
 #
-SERIAL="123456789562"
-CREATEACTORS="YES" # Change to YES to create actors - on first launch of curl
-ID_SUFFIX_PREV="R"
-ID_SUFFIX="A"
+SERIAL="223456789566"
+CREATEACTORS="NO" # Change to YES to create actors - on first launch of curl
+ID_SUFFIX_PREV="Q"
+ID_SUFFIX="S"
 ADMIN_CARD="admin@task2"
 ##assumes composer-rest-server running as admin on port 3000
 
@@ -48,7 +48,6 @@ then
     composer identity issue -c ${ADMIN_CARD} -f manufacturer.card -u manufacturer-${ID_SUFFIX} -a "resource:be.howest.bda.task2.Manufacturer#1${ID_SUFFIX}"
     composer card import --file manufacturer.card
         
-    echo "RUNNING ON PORT: " $manu_pid
     sleep 12
 
     ##not really needed...
@@ -61,7 +60,6 @@ then
     composer identity issue -c ${ADMIN_CARD} -f distributor.card -u distributor-${ID_SUFFIX} -a "resource:be.howest.bda.task2.Distributor#3${ID_SUFFIX}"
     composer card import --file distributor.card
     
-    echo "RUNNING ON PORT: " $distri_pid
     sleep 12
 
     read -n1 -r -p "Press space to continue..." key
@@ -71,7 +69,6 @@ then
     composer identity issue -c ${ADMIN_CARD} -f pharmacist.card -u pharmacist-${ID_SUFFIX} -a "resource:be.howest.bda.task2.Pharmacist#4${ID_SUFFIX}"
     composer card import --file pharmacist.card
    
-    echo "RUNNING ON PORT: " $pharma_pid
     sleep 12
 
     read -n1 -r -p "Press space to continue..." key
@@ -81,15 +78,7 @@ then
     composer identity issue -c ${ADMIN_CARD} -f patient.card -u patient-${ID_SUFFIX} -a "resource:be.howest.bda.task2.Patient#5${ID_SUFFIX}"
     composer card import --file patient.card
 
-    echo "RUNNING ON PORT: " $patient_pid
-
-    function cleanup {
-        echo "#### CLEANUP ####" 
-        kill $manu_pid
-        kill $distri_pid
-        kill $pharma_pid
-        kill $patient_pid
-    }
+   
 
 fi
 echo "#### STARTING COMPOSER_REST_SERVERS... STAND BY... ####" 
@@ -107,13 +96,21 @@ patient_pid=$!
 
 sleep 5
 
+ function cleanup {
+        echo "#### CLEANUP ####" 
+        kill $manu_pid
+        kill $distri_pid
+        kill $pharma_pid
+        kill $patient_pid
+    }
+
 echo "#### CREATING DRUG ####" 
-curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{  "$class": "be.howest.bda.task2.Drug",  "serialNumber": '${SERIAL}',  "owner": "resource:be.howest.bda.task2.Manufacturer#1'${ID_SUFFIX}'",  "manufacturer": "resource:be.howest.bda.task2.Manufacturer#1'${ID_SUFFIX}'",  "productCode": "987654322",  "batchNumber": "987123564",  "hash": "abcdef1234567890",  "status": "MANUFACTURED"}' 'http://localhost:3001/api/Drug'
+curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{ "$class": "be.howest.bda.task2.createDrug", "serialNumber": '${SERIAL}',  "owner": "resource:be.howest.bda.task2.Manufacturer#1'${ID_SUFFIX}'",  "manufacturer": "resource:be.howest.bda.task2.Manufacturer#1'${ID_SUFFIX}'",  "productCode": "132456",  "batchNumber": "132465", "hash": "abcdef1234567890","status": "MANUFACTURED"  }' 'http://localhost:3000/api/createDrug'
 
 read -n1 -r -p "Press space to continue..." key
 
 echo "#### TRANSFER TO DISTRIBUTOR ####" 
-curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{  "$class": "be.howest.bda.task2.VerifyOrigin",  "drug": "resource:be.howest.bda.task2.Drug#'${SERIAL}'",  "newOwner": "resource:be.howest.bda.task2.Distributor#3'${ID_SUFFIX}'",  "timestamp": "2018-06-01T20:22:24.363Z"}' 'http://localhost:3001/api/VerifyOrigin'
+curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{  "$class": "be.howest.bda.task2.Trade",  "drug": "resource:be.howest.bda.task2.Drug#'${SERIAL}'",  "newOwner": "resource:be.howest.bda.task2.Distributor#3'${ID_SUFFIX}'",  "timestamp": "2018-06-01T20:22:24.363Z"}' 'http://localhost:3001/api/trade'
 curl -X GET --header 'Accept: application/json' 'http://localhost:3000/api/Drug/'${SERIAL}
 sleep 5
 echo ""
@@ -121,7 +118,7 @@ echo ""
 read -n1 -r -p "Press space to continue..." key
 
 echo "#### TRANSFER TO PHARMACIST ####" 
-curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{  "$class": "be.howest.bda.task2.VerifyOrigin",  "drug": "resource:be.howest.bda.task2.Drug#'${SERIAL}'",  "newOwner": "resource:be.howest.bda.task2.Pharmacist#4'${ID_SUFFIX}'",  "timestamp": "2018-06-03T20:22:24.363Z"}' 'http://localhost:3003/api/VerifyOrigin'
+curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{  "$class": "be.howest.bda.task2.Trade",  "drug": "resource:be.howest.bda.task2.Drug#'${SERIAL}'",  "newOwner": "resource:be.howest.bda.task2.Pharmacist#4'${ID_SUFFIX}'",  "timestamp": "2018-06-03T20:22:24.363Z"}' 'http://localhost:3003/api/trade'
 curl -X GET --header 'Accept: application/json' 'http://localhost:3000/api/Drug/'${SERIAL}
 sleep 5
 echo ""
@@ -129,7 +126,7 @@ echo ""
 read -n1 -r -p "Press space to continue..." key
 
 echo "#### TRANSFER TO PATIENT ####" 
-curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{  "$class": "be.howest.bda.task2.VerifyOrigin",  "drug": "resource:be.howest.bda.task2.Drug#'${SERIAL}'",  "newOwner": "resource:be.howest.bda.task2.Patient#5'${ID_SUFFIX}'",  "timestamp": "2018-06-03T20:22:24.363Z"}' 'http://localhost:3004/api/VerifyOrigin'
+curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{  "$class": "be.howest.bda.task2.Trade",  "drug": "resource:be.howest.bda.task2.Drug#'${SERIAL}'",  "newOwner": "resource:be.howest.bda.task2.Patient#5'${ID_SUFFIX}'",  "timestamp": "2018-06-03T20:22:24.363Z"}' 'http://localhost:3004/api/trade'
 curl -X GET --header 'Accept: application/json' 'http://localhost:3000/api/Drug/'${SERIAL}
 sleep 5
 echo ""
@@ -137,9 +134,8 @@ echo ""
 read -n1 -r -p "Press space to continue..." key
 
 echo "#### SET TO QUARANTAINE ####" 
-curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{  "$class": "be.howest.bda.task2.VerifyOrigin",  "drug": "resource:be.howest.bda.task2.Drug#'${SERIAL}'",  "newOwner": "resource:be.howest.bda.task2.Manufacturer#1'${ID_SUFFIX}'",  "timestamp": "2018-06-03T20:22:24.363Z"}' 'http://localhost:3000/api/VerifyOrigin'
+curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{  "$class": "be.howest.bda.task2.Trade",  "drug": "resource:be.howest.bda.task2.Drug#'${SERIAL}'",  "newOwner": "resource:be.howest.bda.task2.Manufacturer#1'${ID_SUFFIX}'",  "timestamp": "2018-06-03T20:22:24.363Z"}' 'http://localhost:3000/api/trade'
 curl -X GET --header 'Accept: application/json' 'http://localhost:3000/api/Drug/'${SERIAL}
 
 read -n1 -r -p "Press space to continue..." key
 echo "#### ALL DONE, safe to close ####" 
-

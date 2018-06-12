@@ -56,21 +56,21 @@ rule ManufacturerCanAttemptTransactions {
   description: "Everyone can attempt to verify a transaction"
   participant: "be.howest.bda.task2.Manufacturer"
   operation: ALL
-  resource: "be.howest.bda.task2.VerifyOrigin"
+  resource: "be.howest.bda.task2.Trade"
   action: ALLOW
 }
 rule DistributerCanAttemptTransactions {
   description: "Everyone can attempt to verify a transaction"
   participant: "be.howest.bda.task2.Distributor"
   operation: ALL
-  resource: "be.howest.bda.task2.VerifyOrigin"
+  resource: "be.howest.bda.task2.Trade"
   action: ALLOW
 }
 rule PharmacyCanAttemptTransactions {
   description: "Everyone can attempt to verify a transaction"
   participant: "be.howest.bda.task2.Pharmacist"
   operation: ALL
-  resource: "be.howest.bda.task2.VerifyOrigin"
+  resource: "be.howest.bda.task2.Trade"
   action: ALLOW
 }
 

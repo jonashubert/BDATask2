@@ -81,11 +81,6 @@ transaction createDrug {
 }
 
 transaction Trade {
-  --> Drug asset
-  --> Actor newOwner
-}
-
-transaction VerifyOrigin {
    --> Drug drug
    --> Actor newOwner
 }
