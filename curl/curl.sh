@@ -12,8 +12,7 @@ then
 fi
 
 echo "#### CREATING DRUG ####" 
-curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{  "$class": "be.howest.bda.task2.Drug",  "serialNumber": '${SERIAL}',  "owner": "resource:be.howest.bda.task2.Manufacturer#1c",  "manufacturer": "resource:be.howest.bda.task2.Manufacturer#1c",  "productCode": "987654322",  "batchNumber": "987123564",  "hash": "abcdef1234567890",  "status": "MANUFACTURED"}' 'http://localhost:3000/api/createDrug'
-
+curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{ "$class": "be.howest.bda.task2.createDrug", "serialNumber": '${SERIAL}',  "owner": "resource:be.howest.bda.task2.Manufacturer#1F",  "manufacturer": "resource:be.howest.bda.task2.Manufacturer#1F",  "productCode": "132456",  "batchNumber": "132465", "hash": "abcdef1234567890","status": "MANUFACTURED"  }' 'http://localhost:3000/api/createDrug'
 # echo "#### TRANSFER TO DISTRIBUTOR ####" 
 # curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{  "$class": "be.howest.bda.task2.VerifyOrigin",  "drug": "resource:be.howest.bda.task2.Drug#'${SERIAL}'",  "newOwner": "resource:be.howest.bda.task2.Distributor#3c",  "timestamp": "2018-06-01T20:22:24.363Z"}' 'http://localhost:3000/api/VerifyOrigin'
 # curl -X GET --header 'Accept: application/json' 'http://localhost:3000/api/Drug/'${SERIAL}
