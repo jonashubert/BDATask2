@@ -20,8 +20,8 @@
 #
 SERIAL="123456789562"
 CREATEACTORS="YES" # Change to YES to create actors - on first launch of curl
-ID_SUFFIX_PREV="Q"
-ID_SUFFIX="R"
+ID_SUFFIX_PREV="R"
+ID_SUFFIX="A"
 ADMIN_CARD="admin@task2"
 ##assumes composer-rest-server running as admin on port 3000
 
