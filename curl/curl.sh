@@ -19,9 +19,9 @@
 # netstat -tulpn will list the ports in used and their processed. kill <pid> for all processes using port 3001, 3003, 3004
 #
 SERIAL="3334376789549"
-CREATEACTORS="NO" # Change to YES to create actors - on first launch of curl
-ID_SUFFIX_PREV="S"
-ID_SUFFIX="AB"
+CREATEACTORS="YES" # Change to YES to create actors - on first launch of curl
+ID_SUFFIX_PREV="B"
+ID_SUFFIX="C"
 ADMIN_CARD="admin@task2"
 ##assumes composer-rest-server running as admin on port 3000
 
@@ -30,17 +30,17 @@ trap cleanup EXIT
 
 if [ $CREATEACTORS = "YES" ] 
 then
-    echo "#### DELETING OLD CARDS AND IDENTITIES ####"
-    #composer identity revoke --card -${ID_SUFFIX_PREV}@task2 -u manufacturer-${ID_SUFFIX_PREV}
-    composer card delete --card manufacturer-${ID_SUFFIX_PREV}@task2
-    #composer identity revoke --card distributor-${ID_SUFFIX_PREV}@task2 -u distributor-${ID_SUFFIX_PREV}
-    composer card delete --card distributor-${ID_SUFFIX_PREV}@task2
-    #composer identity revoke --card pharmacist-${ID_SUFFIX_PREV}@task2 -u pharmacist-${ID_SUFFIX_PREV}
-    composer card delete --card pharmacist-${ID_SUFFIX_PREV}@task2
-    #composer identity revoke --card patient-${ID_SUFFIX_PREV}@task2 -u patient-${ID_SUFFIX_PREV}
-    composer card delete --card patient-${ID_SUFFIX_PREV}@task2
+    # echo "#### DELETING OLD CARDS AND IDENTITIES ####"
+    # #composer identity revoke --card -${ID_SUFFIX_PREV}@task2 -u manufacturer-${ID_SUFFIX_PREV}
+    # composer card delete --card manufacturer-${ID_SUFFIX_PREV}@task2
+    # #composer identity revoke --card distributor-${ID_SUFFIX_PREV}@task2 -u distributor-${ID_SUFFIX_PREV}
+    # composer card delete --card distributor-${ID_SUFFIX_PREV}@task2
+    # #composer identity revoke --card pharmacist-${ID_SUFFIX_PREV}@task2 -u pharmacist-${ID_SUFFIX_PREV}
+    # composer card delete --card pharmacist-${ID_SUFFIX_PREV}@task2
+    # #composer identity revoke --card patient-${ID_SUFFIX_PREV}@task2 -u patient-${ID_SUFFIX_PREV}
+    # composer card delete --card patient-${ID_SUFFIX_PREV}@task2
 
-    read -n1 -r -p "Press space to continue..." key
+    # read -n1 -r -p "Press space to continue..." key
 
     echo "#### CREATING ACTORS ####"
     echo "#### CREATING MANUFACTURER ####"
