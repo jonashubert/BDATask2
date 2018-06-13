@@ -18,8 +18,8 @@
 # NOTE: error "EADDRINUSE" means the cleanup did not go ok. The rest-composer-server is still running from a previous run
 # netstat -tulpn will list the ports in used and their processed. kill <pid> for all processes using port 3001, 3003, 3004
 #
-SERIAL="3334356789549"
-CREATEACTORS="YES" # Change to YES to create actors - on first launch of curl
+SERIAL="3334376789549"
+CREATEACTORS="NO" # Change to YES to create actors - on first launch of curl
 ID_SUFFIX_PREV="S"
 ID_SUFFIX="AB"
 ADMIN_CARD="admin@task2"
@@ -105,7 +105,7 @@ sleep 5
     }
 
 echo "#### CREATING DRUG ####" 
-curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{ "$class": "be.howest.bda.task2.createDrug", "serialNumber": '${SERIAL}',  "owner": "resource:be.howest.bda.task2.Manufacturer#1'${ID_SUFFIX}'",  "manufacturer": "resource:be.howest.bda.task2.Manufacturer#1'${ID_SUFFIX}'",  "productCode": "132456",  "batchNumber": "132465", "hash": "abcdef1234567890","status": "MANUFACTURED"  }' 'http://localhost:3000/api/createDrug'
+curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{ "$class": "be.howest.bda.task2.createDrug", "serialNumber": '${SERIAL}',  "owner": "resource:be.howest.bda.task2.Manufacturer#1'${ID_SUFFIX}'",  "manufacturer": "resource:be.howest.bda.task2.Manufacturer#1'${ID_SUFFIX}'",  "productCode": "132456",  "batchNumber": "132465", "hash": "abcdef1234567890","status": "MANUFACTURED"  }' 'http://localhost:3001/api/createDrug'
 read -n1 -r -p "Press space to continue..." key
 
 echo "#### TRANSFER TO DISTRIBUTOR ####" 

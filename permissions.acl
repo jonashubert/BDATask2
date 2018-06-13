@@ -26,6 +26,14 @@ rule ManufacturerCanCreateDrugs {
   description: "Manufacturer can create drugs"
   participant: "be.howest.bda.task2.Manufacturer"
   operation: CREATE
+  resource: "be.howest.bda.task2.Drug"
+  action: ALLOW
+}
+
+rule ManufacturerCanCallCreateDrug {
+  description: "Manufacturer can call the CreateDrug function"
+  participant: "be.howest.bda.task2.Manufacturer"
+  operation: CREATE
   resource: "be.howest.bda.task2.createDrug"
   action: ALLOW
 }
