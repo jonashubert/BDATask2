@@ -1,5 +1,6 @@
-SERIAL="12345678952131"
+SERIAL="3234567891"
 CREATEACTORS="NO" # Change to YES to create actors - on first launch of curl
+FALSIFY="BATCHNUMBER" # Options: SERIAL, BATCHNUMBER, PRODUCTCODE, MANUFACTURER
 
 if [ $CREATEACTORS = "YES" ] 
 then
@@ -13,16 +14,35 @@ fi
 
 echo "#### CREATING DRUG ####" 
 curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{ "$class": "be.howest.bda.task2.createDrug", "serialNumber": '${SERIAL}',  "owner": "resource:be.howest.bda.task2.Manufacturer#1c",  "manufacturer": "resource:be.howest.bda.task2.Manufacturer#1c",  "productCode": "13245678",  "batchNumber": "132465", "hash": "abcdef1234567890","status": "MANUFACTURED"  }' 'http://localhost:3000/api/createDrug'
+read -n1 -r -p "Press space to continue..." key
+echo "#### CHECK HASH ####"
+curl -X GET --header 'Accept: application/json' 'http://localhost:3000/api/Drug/'${SERIAL}
+read -n1 -r -p "Press space to continue..." key
 
-echo "#### CHANGE SERIAL ####"
-curl -X PUT --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{ "$class": "be.howest.bda.task2.Drug", "serialNumber": '${SERIAL}',  "owner": "resource:be.howest.bda.task2.Manufacturer#1c",  "manufacturer": "resource:be.howest.bda.task2.Manufacturer#1c",  "productCode": "13245678",  "batchNumber": "132465","hash": "vals12", "status": "MANUFACTURED"  }' 'http://localhost:3000/api/Drug/'${SERIAL}
+# if [ $FALSIFY = "SERIAL"]
+# then
+# echo "#### CHANGE SERIAL ####"
+# curl -X PUT --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{ "$class": "be.howest.bda.task2.Drug", "serialNumber": '${SERIAL}',  "owner": "resource:be.howest.bda.task2.Manufacturer#1c",  "manufacturer": "resource:be.howest.bda.task2.Manufacturer#1c",  "productCode": "13245678",  "batchNumber": "132465","hash": "vals12", "status": "MANUFACTURED"  }' 'http://localhost:3000/api/Drug/'${SERIAL}
+# fi
 
+# if [ $FALSIFY = "BATCHNUMBER"]
+# then
+
+echo -n "Copy the hash from above and press [ENTER]: "
+read HASH
+
+echo "#### CHANGE BATCHNUMBER ####"
+curl -X PUT --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{ "$class": "be.howest.bda.task2.Drug", "serialNumber": '${SERIAL}',  "owner": "resource:be.howest.bda.task2.Manufacturer#1c",  "manufacturer": "resource:be.howest.bda.task2.Manufacturer#1c",  "productCode": "13245678",  "batchNumber": "0000000","hash": '${HASH}', "status": "MANUFACTURED"  }' 'http://localhost:3000/api/Drug/'${SERIAL}
+# fi
+
+echo "#### GET DRUG ####"
+curl -X GET --header 'Accept: application/json' 'http://localhost:3000/api/Drug/'${SERIAL}
+read -n1 -r -p "Press space to continue..." key
 
 echo "#### TRANSFER TO DISTRIBUTOR ####" 
 curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{  "$class": "be.howest.bda.task2.Trade",  "drug": "resource:be.howest.bda.task2.Drug#'${SERIAL}'",  "newOwner": "resource:be.howest.bda.task2.Distributor#3c",  "timestamp": "2018-06-01T20:22:24.363Z"}' 'http://localhost:3000/api/trade'
 curl -X GET --header 'Accept: application/json' 'http://localhost:3000/api/Drug/'${SERIAL}
-sleep 5
-echo ""
+read -n1 -r -p "Press space to continue..." key
 
 echo "#### CHECK STATUS ####" 
 curl -X GET --header 'Accept: application/json' 'http://localhost:3000/api/Drug/'${SERIAL}
